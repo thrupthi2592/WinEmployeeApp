@@ -8,7 +8,7 @@ namespace EmployeeDetails.Common
     {
         private readonly IEmployee _employee;
         public EmployeeInfoPresenter(IEmployee employee)
-        {
+            {
             _employee = employee;
             _employee.SaveAttempted += _employee_SaveAttempted;
             _employee.UpdateAttempted += _employee_UpdateAttempted;

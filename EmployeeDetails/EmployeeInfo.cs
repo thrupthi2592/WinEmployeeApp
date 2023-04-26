@@ -104,7 +104,7 @@ namespace EmployeeDetails
         private async void btnDelete_Click(object sender, EventArgs e)
         {
             try
-            {
+            {            
                 WebAPIEmployeeInfo web = new WebAPIEmployeeInfo();
                 var response = await web.DeleteEmployeeDetails(txtID.Text, "json");
                 txtResponse.Text = WebAPIEmployeeInfo.ConvertToJSONFormat(response);
@@ -122,6 +122,7 @@ namespace EmployeeDetails
             try
             {
                 CheckFieldVisibility("Get");
+                lblError.Text = string.Empty;
                 ClearFieldValues();
             }
             catch (Exception ex)
@@ -136,6 +137,7 @@ namespace EmployeeDetails
             try
             {
                 CheckFieldVisibility("GetAll");
+                lblError.Text = string.Empty;
                 ClearFieldValues();
             }
             catch (Exception ex)
@@ -150,6 +152,7 @@ namespace EmployeeDetails
             try
             {
                 CheckFieldVisibility("Create");
+                lblError.Text = string.Empty;
                 ClearFieldValues();
             }
             catch (Exception ex)
@@ -164,6 +167,7 @@ namespace EmployeeDetails
             try
             {
                 CheckFieldVisibility("Update");
+                lblError.Text = string.Empty;
                 ClearFieldValues();
             }
             catch (Exception ex)
@@ -178,6 +182,7 @@ namespace EmployeeDetails
             try
             {
                 CheckFieldVisibility("Delete");
+                lblError.Text = string.Empty;
                 ClearFieldValues();
             }
             catch (Exception ex)
