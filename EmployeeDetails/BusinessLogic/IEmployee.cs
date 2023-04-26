@@ -8,7 +8,7 @@ namespace EmployeeDetails.BusinessLogic
 {
     public interface IEmployee
     {
-        //public int ID { get; set; }
+        public string ID { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Gender { get; set; }
@@ -17,5 +17,7 @@ namespace EmployeeDetails.BusinessLogic
         public bool  ShowFormError  { get; set; }
 
         public event EventHandler SaveAttempted;
+        public event EventHandler UpdateAttempted;
+        public event EventHandler DeleteAttempted;
     }
 }

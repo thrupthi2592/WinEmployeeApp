@@ -76,7 +76,7 @@ namespace EmployeeDetails.BusinessLogic
             string insertEmployee = string.Empty;
             try
             {
-                insertEmployee = validateInputs("",name, email, gender, status, "");
+                insertEmployee = validateInputs("",name, email, gender, status, "create");
                 var request = new Dictionary<string, string>
                 {
                     {"name", name },
@@ -90,13 +90,16 @@ namespace EmployeeDetails.BusinessLogic
                     client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
                     using (HttpResponseMessage res = await client.PostAsync(baseURL + "/", reqData))
                     {
-                        if (type.Equals("json"))
+                        if (string.IsNullOrEmpty(insertEmployee))
                         {
-                            insertEmployee = await GetContentResultInString(res);
-                        }
-                        else
-                        {
-                            insertEmployee =  "Success";
+                            if (type.Equals("json"))
+                            {
+                                insertEmployee = await GetContentResultInString(res);
+                            }
+                            else
+                            {
+                                insertEmployee = "Success";
+                            }
                         }
                     }
                 }
@@ -128,13 +131,16 @@ namespace EmployeeDetails.BusinessLogic
                     client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
                     using (HttpResponseMessage res = await client.PutAsync(baseURL + "/" + id, reqData))
                     {
-                        if (type.Equals("json"))
+                        if (string.IsNullOrEmpty(updateEmployee))
                         {
-                            updateEmployee = await GetContentResultInString(res);
-                        }
-                        else
-                        {
-                            updateEmployee = "Success";
+                            if (type.Equals("json"))
+                            {
+                                updateEmployee = await GetContentResultInString(res);
+                            }
+                            else
+                            {
+                                updateEmployee = "Success";
+                            }
                         }
                     }
                 }
@@ -158,14 +164,17 @@ namespace EmployeeDetails.BusinessLogic
                     client.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
                     using (HttpResponseMessage res = await client.DeleteAsync(baseURL + "/" + id))
                     {
-                        if (type.Equals("json"))
+                        if (string.IsNullOrEmpty(deleteEmployee))
                         {
-                            MessageBox.Show("Employee Details deleted for employee id : " + id);
-                            deleteEmployee = await GetContentResultInString(res);
-                        }
-                        else
-                        {
-                            deleteEmployee = "Success";
+                            if (type.Equals("json"))
+                            {
+                                MessageBox.Show("Employee Details deleted for employee id : " + id);
+                                deleteEmployee = await GetContentResultInString(res);
+                            }
+                            else
+                            {
+                                deleteEmployee = "Success";
+                            }
                         }
                     }
                 }
@@ -213,9 +222,10 @@ namespace EmployeeDetails.BusinessLogic
         {
             string validate = string.Empty;
             string allowedChar = "^(.+)@(.+)$";
+            string allowedIDValues = "^[0-9]+$";
             try
             {
-                if (!type.Equals("Update") || !type.Equals("Delete"))
+                if (type.ToLower().Equals("create") || type.ToLower().Equals("update"))
                 {
                     if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(gender) || string.IsNullOrEmpty(status))
                     {
@@ -226,13 +236,13 @@ namespace EmployeeDetails.BusinessLogic
                 {
                     validate = "Invalid Email";
                 }
-                if (type.Equals("Update") || type.Equals("Delete"))
+                if (type.ToLower().Equals("update") || type.ToLower().Equals("delete"))
                 {
                     if (string.IsNullOrEmpty(id))
                     {
                         validate = "ID value is mandatory";
                     }
-                    else if (id.GetType() == typeof(int))
+                    else if (!Regex.IsMatch(id, allowedIDValues))
                     {
                         validate = "Enter a integer value";
                     }

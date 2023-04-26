@@ -9,7 +9,7 @@ namespace EmployeeDetails
         private EmployeeInfoPresenter _presenter;
 
 
-        //int IEmployee.ID { get => this.txtID.Text; set => this.txtID.Text = value; }
+        string IEmployee.ID { get => this.txtID.Text; set => this.txtID.Text = value; }
         string IEmployee.Name { get => this.txtFirstName.Text; set => this.txtFirstName.Text = value; }
         string IEmployee.Email { get => this.txtEmail.Text; set => this.txtEmail.Text = value; }
         string IEmployee.Gender { get => this.txtGender.Text; set => this.txtGender.Text = value; }
@@ -18,6 +18,8 @@ namespace EmployeeDetails
         bool IEmployee.ShowFormError { get => this.lblError.Visible; set => this.lblError.Visible = value; }
 
         public event EventHandler? SaveAttempted;
+        public event EventHandler? UpdateAttempted;
+        public event EventHandler? DeleteAttempted;
 
         public EmployeeInfo()
         {
@@ -90,6 +92,7 @@ namespace EmployeeDetails
                 WebAPIEmployeeInfo web = new WebAPIEmployeeInfo();
                 var response = await web.UpdateEmployeeDetails(txtID.Text, txtFirstName.Text, txtEmail.Text, txtGender.Text, txtStatus.Text,"json");
                 txtResponse.Text = WebAPIEmployeeInfo.ConvertToJSONFormat(response);
+                UpdateAttempted?.Invoke(sender: this, e: EventArgs.Empty);
             }
             catch (Exception ex)
             {
@@ -105,6 +108,7 @@ namespace EmployeeDetails
                 WebAPIEmployeeInfo web = new WebAPIEmployeeInfo();
                 var response = await web.DeleteEmployeeDetails(txtID.Text, "json");
                 txtResponse.Text = WebAPIEmployeeInfo.ConvertToJSONFormat(response);
+                DeleteAttempted?.Invoke(sender: this, e: EventArgs.Empty);
             }
             catch (Exception ex)
             {

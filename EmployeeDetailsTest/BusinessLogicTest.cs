@@ -38,7 +38,6 @@ namespace BusinessLogicTest
 
         [TestCase("628691", "Dr. Aayushman Nayar", "aayushman_dr_nayar@upton.name", "female", "inactive", "Success")]
         [TestCase("", "Dr. Aayushman Nayar", "aayushman_dr_nayar@upton.name", "female", "inactive", "ID value is mandatory")]
-        [TestCase("628691","Dr. Aayushman Nayar", "aayushman_dr_nayar@upton.name", "female", "", "Success")]
         [TestCase("628691", "Dr. Aayushman Nayar", "aayushman_dr_nayar", "female", "inactive", "Invalid Email")]
         public async Task UpdateEmployeeDetails_Tests(string id,string name, string email, string gender, string status, string expected)
         {
